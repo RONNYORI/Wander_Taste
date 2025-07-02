@@ -1,0 +1,426 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  background-color: black;
+  color: #3e2f23;
+  overflow-x: hidden;
+  font-family: "Nunito", sans-serif;
+  font-size: 18px;
+}
+
+/* Background gambar blur di seluruh halaman */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../images/background/bg.jpg'); /* pastikan file ini ada */
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px) brightness(0.5);
+  z-index: -1;
+}
+
+#slideshow-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+
+#slideshow-container img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  animation: fadeAnimation 8s infinite;
+}
+
+#slideshow-container img:nth-child(1) {
+  animation-delay: 0s;
+}
+
+#slideshow-container img:nth-child(2) {
+  animation-delay: 2s;
+}
+
+#slideshow-container img:nth-child(3) {
+  animation-delay: 4s;
+}
+
+#slideshow-container img:nth-child(4) {
+  animation-delay: 6s;
+}
+
+@keyframes fadeAnimation {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeSlideDown{
+  0%{
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+label {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+  cursor: pointer; /* Buat Rubah Kursor Jadi Jari Telunjuk */
+}
+
+.logo {
+  background-image: url('../images/logo/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 110px;
+  width: 220px;
+  margin-left: 50px;
+  transition: transform 0.4s ease;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+}
+
+.navbar {
+  background: rgba(41, 12, 12, 0.6); /* semi transparan putih */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: fadeSlideDown 1.5s ease-out;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: "Nunito", serif;
+  font-size: 18px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  align-items: center; /* Tambahan untuk alignment vertikal */
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  display: flex;
+  align-items: center; /* Sejajarkan konten dalam li */
+}
+
+.nav-links li a {
+  color: #A86523;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  height: auto; /* Konsisten dengan dropdown button */
+}
+
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tombol dropdown - sejajarkan dengan link lainnya */
+.dropdown-button {
+  background-color: transparent;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #A86523; /* Sama dengan warna link */
+  padding: 0.5rem 1rem; /* Sama dengan padding link */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 10px; /* Sama dengan border-radius link */
+  transition: all 0.3s ease; /* Sama dengan transisi link */
+  height: auto;
+  margin: 0; /* Reset margin default button */
+}
+
+/* Hover effect untuk dropdown button - sama dengan link */
+.dropdown-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Isi dropdown */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #4F200D;
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 1000;
+  top: 100%;
+  left: 0;
+  border-radius: 5px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Link dalam dropdown */
+.dropdown-content li {
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-content a {
+  color: white; /* Ubah ke white untuk kontras yang lebih baik */
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s ease;
+  border-radius: 0; /* Reset border-radius untuk dropdown items */
+}
+
+.dropdown-content a:hover {
+  font-weight: bold;
+  background-color: #3C1B1F;
+  transform: none; /* Reset transform untuk dropdown items */
+}
+
+/* Tampilkan dropdown saat hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Panah dropdown */
+.arrow {
+  transition: transform 0.3s ease;
+  font-size: 0.8rem;
+}
+
+.dropdown:hover .arrow {
+  transform: rotate(180deg);
+}
+
+/* Pastikan semua item navbar memiliki baseline yang sama */
+.navbar {
+  display: flex;
+  align-items: center; /* Sejajarkan semua elemen navbar */
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+/* Optional: Untuk memastikan semua elemen memiliki tinggi yang sama */
+.nav-links li a,
+.dropdown-button {
+  min-height: 2rem; /* Tinggi minimum yang sama */
+  box-sizing: border-box;
+}
+
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-input {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  outline: none;
+  backdrop-filter: blur(10px);
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search-button {
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.search-button:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+ .grid {
+  display: flex;
+  gap: 30px;
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  justify-content: center;
+ }
+ 
+ /* Card Styling */
+ .card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  flex: 1;
+  max-width: 500px;
+  min-height: 540px;
+  display: flex;
+  flex-direction: column;
+ }
+ 
+ /* Card Typography */
+ .card h2 {
+  margin: 0 0 15px 0;
+  color: #8B4513;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  font-family: "Merriweather";
+ }
+ 
+ .card h2 span {
+  font-weight: normal;
+  color: #D2691E;
+ }
+ 
+ .card h2 strong {
+  color: #8B4513;
+ }
+ 
+ .card br {
+  display: none;
+ }
+ 
+ .card p {
+  color: #5D4037;
+  line-height: 1.5;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: justify;
+  font-size: 0.95rem;
+  flex-grow: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  font-family: "Nunito", sans-serif;
+ }
+ 
+ .card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-top: auto;
+ }
+ 
+footer *{
+  position: relative;
+  z-index: 2;
+}
+
+footer {
+  background-color: #f6ede1;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #5b3c2a;
+}
+
+.socials a {
+  margin: 0 10px;
+  color: #7a4b28;
+  font-size: 20px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.socials a:hover {
+  color: #e38d20;
+}
+
+.socials i {
+  font-size: 24px;
+  margin: 0 10px;
+  color: #7a4b28;
+  transition: 0.3s ease;
+}
+
+.socials i:hover {
+  color: #e38d20;
+}
+
+.map {
+  width: 90%;
+  height: 300px;
+  margin: 20px auto;
+  border: 2px solid #e38d20;
+  border-radius: 10px;
+  display: block;
+}
+
+/* Responsif untuk navbar */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .logo {
+    height: 120px;
+    width: 120px;
+    margin: 0 auto 10px auto;
+    align-self: center;
+  }
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    
+    gap: 15px;
+  }
+  .search-form {
+    width: 100%;
+    justify-content: center;
+  }
+  .search-input {
+    width: 70%;
+  }
+}
+
+

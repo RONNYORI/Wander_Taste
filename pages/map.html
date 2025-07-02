@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WANDER TASTE</title>
+    <link rel="stylesheet" href="../assets/css/map.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo"></div>
+      <ul class="nav-links">
+        <li><a href="../pages/homepage.html">Home</a></li>
+        <li><a href="../pages/map.html">Map</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-button">
+            Continent <i class="fa-solid fa-chevron-down arrow"></i>
+          </a>
+          <ul class="dropdown-content">
+            <li><a href="../pages/continent_page/asia.html">Asia</a></li>
+            <li><a href="../pages/continent_page/afrika.html">Africa</a></li>
+            <li><a href="../pages/continent_page/northUSA.html">North America</a></li>
+            <li><a href="../pages/continent_page/southUSA.html">South America</a></li>
+            <li><a href="../pages/continent_page/eropa.html">Europe</a></li>
+            <li><a href="../pages/continent_page/australia.html">Australia</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form action="/search" method="GET" class="search-form">
+        <input
+          type="text"
+          name="q"
+          placeholder="Search..."
+          class="search-input"
+          aria-label="Search"
+        />
+        <button type="submit" class="search-button">Search</button>
+      </form>
+    </nav>
+
+    <div class="map-section">
+        <h1 class="map-title">Wander Your Taste!</h1>
+        <div class="map-container">
+        <div id="container"></div>
+    </div>
+  </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.9/datamaps.world.min.js"></script>
+    <script>
+      // Define continent mappings
+      const continentMapping = {
+        // Asia
+        'AFG': 'asia', 'ARM': 'asia', 'AZE': 'asia', 'BHR': 'asia', 'BGD': 'asia', 'BTN': 'asia',
+        'BRN': 'asia', 'KHM': 'asia', 'CHN': 'asia', 'CYP': 'asia', 'GEO': 'asia', 'IND': 'asia',
+        'IDN': 'asia', 'IRN': 'asia', 'IRQ': 'asia', 'ISR': 'asia', 'JPN': 'asia', 'JOR': 'asia',
+        'KAZ': 'asia', 'KWT': 'asia', 'KGZ': 'asia', 'LAO': 'asia', 'LBN': 'asia', 'MYS': 'asia',
+        'MDV': 'asia', 'MNG': 'asia', 'MMR': 'asia', 'NPL': 'asia', 'PRK': 'asia', 'KOR': 'asia',
+        'OMN': 'asia', 'PAK': 'asia', 'PSE': 'asia', 'PHL': 'asia', 'QAT': 'asia', 'SAU': 'asia',
+        'SGP': 'asia', 'LKA': 'asia', 'SYR': 'asia', 'TWN': 'asia', 'TJK': 'asia', 'THA': 'asia',
+        'TLS': 'asia', 'TUR': 'asia', 'TKM': 'asia', 'ARE': 'asia', 'UZB': 'asia', 'VNM': 'asia',
+        'YEM': 'asia',
+
+        // Europe
+        'ALB': 'eropa', 'AND': 'eropa', 'AUT': 'eropa', 'BLR': 'eropa', 'BEL': 'eropa', 'BIH': 'eropa',
+        'BGR': 'eropa', 'HRV': 'eropa', 'CZE': 'eropa', 'DNK': 'eropa', 'EST': 'eropa', 'FIN': 'eropa',
+        'FRA': 'eropa', 'DEU': 'eropa', 'GRC': 'eropa', 'HUN': 'eropa', 'ISL': 'eropa', 'IRL': 'eropa',
+        'ITA': 'eropa', 'XKX': 'eropa', 'LVA': 'eropa', 'LIE': 'eropa', 'LTU': 'eropa', 'LUX': 'eropa',
+        'MLT': 'eropa', 'MDA': 'eropa', 'MCO': 'eropa', 'MNE': 'eropa', 'NLD': 'eropa', 'MKD': 'eropa',
+        'NOR': 'eropa', 'POL': 'eropa', 'PRT': 'eropa', 'ROU': 'eropa', 'RUS': 'eropa', 'SMR': 'eropa',
+        'SRB': 'eropa', 'SVK': 'eropa', 'SVN': 'eropa', 'ESP': 'eropa', 'SWE': 'eropa', 'CHE': 'eropa',
+        'UKR': 'eropa', 'GBR': 'eropa', 'VAT': 'eropa',
+
+        // Africa
+        'DZA': 'afrika', 'AGO': 'afrika', 'BEN': 'afrika', 'BWA': 'afrika', 'BFA': 'afrika', 'BDI': 'afrika',
+        'CMR': 'afrika', 'CPV': 'afrika', 'CAF': 'afrika', 'TCD': 'afrika', 'COM': 'afrika', 'COG': 'afrika',
+        'COD': 'afrika', 'CIV': 'afrika', 'DJI': 'afrika', 'EGY': 'afrika', 'GNQ': 'afrika', 'ERI': 'afrika',
+        'SWZ': 'afrika', 'ETH': 'afrika', 'GAB': 'afrika', 'GMB': 'afrika', 'GHA': 'afrika', 'GIN': 'afrika',
+        'GNB': 'afrika', 'KEN': 'afrika', 'LSO': 'afrika', 'LBR': 'afrika', 'LBY': 'afrika', 'MDG': 'afrika',
+        'MWI': 'afrika', 'MLI': 'afrika', 'MRT': 'afrika', 'MUS': 'afrika', 'MAR': 'afrika', 'MOZ': 'afrika',
+        'NAM': 'afrika', 'NER': 'afrika', 'NGA': 'afrika', 'RWA': 'afrika', 'STP': 'afrika', 'SEN': 'afrika',
+        'SYC': 'afrika', 'SLE': 'afrika', 'SOM': 'afrika', 'ZAF': 'afrika', 'SSD': 'afrika', 'SDN': 'afrika',
+        'TZA': 'afrika', 'TGO': 'afrika', 'TUN': 'afrika', 'UGA': 'afrika', 'ZMB': 'afrika', 'ZWE': 'afrika',
+
+        // North America
+        'ATG': 'northUSA', 'BHS': 'northUSA', 'BRB': 'northUSA', 'BLZ': 'northUSA', 'CAN': 'northUSA',
+        'CRI': 'northUSA', 'CUB': 'northUSA', 'DMA': 'northUSA', 'DOM': 'northUSA', 'SLV': 'northUSA',
+        'GRD': 'northUSA', 'GTM': 'northUSA', 'HTI': 'northUSA', 'HND': 'northUSA', 'JAM': 'northUSA',
+        'MEX': 'northUSA', 'NIC': 'northUSA', 'PAN': 'northUSA', 'KNA': 'northUSA', 'LCA': 'northUSA',
+        'VCT': 'northUSA', 'TTO': 'northUSA', 'USA': 'northUSA',
+
+        // South America
+        'ARG': 'southUSA', 'BOL': 'southUSA', 'BRA': 'southUSA', 'CHL': 'southUSA', 'COL': 'southUSA',
+        'ECU': 'southUSA', 'GUY': 'southUSA', 'PRY': 'southUSA', 'PER': 'southUSA', 'SUR': 'southUSA',
+        'URY': 'southUSA', 'VEN': 'southUSA',
+
+        // Australia/Oceania
+        'AUS': 'australia', 'FJI': 'australia', 'KIR': 'australia', 'MHL': 'australia', 'FSM': 'australia',
+        'NRU': 'australia', 'NZL': 'australia', 'PLW': 'australia', 'PNG': 'australia', 'WSM': 'australia',
+        'SLB': 'australia', 'TON': 'australia', 'TUV': 'australia', 'VUT': 'australia'
+      };
+
+      // Define continent colors
+      const continentColors = {
+        'asia': '#FF6B6B',
+        'eropa': '#4ECDC4', 
+        'afrika': '#45B7D1',
+        'northUSA': '#96CEB4',
+        'southUSA': '#FECA57',
+        'australia': '#FF9FF3'
+      };
+
+      var map = new Datamap({ 
+        element: document.getElementById("container"),
+        responsive: true,
+        fills: {
+          defaultFill: '#C08261',
+          asia: '#FF6B6B',
+          eropa: '#4ECDC4',
+          afrika: '#45B7D1',
+          northUSA: '#96CEB4',
+          southUSA: '#FECA57',
+          australia: '#FF9FF3'
+        },
+        data: (function() {
+          var data = {};
+          for (var countryCode in continentMapping) {
+            data[countryCode] = {
+              fillKey: continentMapping[countryCode]
+            };
+          }
+          return data;
+        })(),
+        geographyConfig: {
+          highlightFillColor: '#8E3200',
+          highlightBorderColor: '#F6F1E9',
+          highlightBorderWidth: 3,
+          popupTemplate: function(geography, data) {
+            var continent = continentMapping[geography.id];
+            var continentName = {
+              'asia': 'Asia',
+              'eropa': 'Europe', 
+              'afrika': 'Africa',
+              'northUSA': 'North America',
+              'southUSA': 'South America',
+              'australia': 'Australia & Oceania'
+            }[continent] || 'Unknown';
+            
+            return '<div class="hoverinfo"><strong>' + geography.properties.name + '</strong><br/><em>' + continentName + '</em><br/><small>Click to explore cuisine!</small></div>';
+          }
+        },
+        done: function(datamap) {
+          datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
+            var countryCode = geography.id;
+            var continent = continentMapping[countryCode];
+            
+            // Exclude Antarctica and unknown countries
+            if (!continent || countryCode === 'ATA') {
+              alert('Culinary information not available for this region.');
+              return;
+            }
+            
+            // Highlight selected country temporarily
+            d3.select(this).style('fill', '#8E3200').transition().duration(300).style('fill', continentColors[continent]);
+            
+            // Navigate to continent page
+            setTimeout(function() {
+              window.location.href = 'continent_page/' + continent + '.html';
+            }, 500);
+          });
+
+          // Add hover effects
+          datamap.svg.selectAll('.datamaps-subunit').on('mouseover', function(geography) {
+            var continent = continentMapping[geography.id];
+            if (continent) {
+              d3.select(this).style('stroke', '#F6F1E9').style('stroke-width', '2px');
+            }
+          }).on('mouseout', function(geography) {
+            d3.select(this).style('stroke', null).style('stroke-width', null);
+          });
+        }
+      });
+
+      // Make map responsive
+      window.addEventListener('resize', function() {
+        map.resize();
+      });
+
+      // Add legend
+      function addLegend() {
+        var legend = d3.select('.map-container').append('div')
+          .attr('class', 'map-legend')
+          .style('position', 'absolute')
+          .style('top', '20px')
+          .style('right', '20px')
+          .style('background', 'rgba(255,255,255,0.9)')
+          .style('padding', '15px')
+          .style('border-radius', '8px')
+          .style('box-shadow', '0 2px 10px rgba(0,0,0,0.1)')
+          .style('font-family', 'Arial, sans-serif')
+          .style('font-size', '12px');
+
+        legend.append('div')
+          .style('font-weight', 'bold')
+          .style('margin-bottom', '10px')
+          .text('Continents');
+
+        var continents = [
+          {name: 'Asia', color: '#FF6B6B'},
+          {name: 'Europe', color: '#4ECDC4'},
+          {name: 'Africa', color: '#45B7D1'},
+          {name: 'North America', color: '#96CEB4'},
+          {name: 'South America', color: '#FECA57'},
+          {name: 'Australia & Oceania', color: '#FF9FF3'}
+        ];
+
+        continents.forEach(function(continent) {
+          var item = legend.append('div')
+            .style('display', 'flex')
+            .style('align-items', 'center')
+            .style('margin-bottom', '5px');
+
+          item.append('div')
+            .style('width', '15px')
+            .style('height', '15px')
+            .style('background-color', continent.color)
+            .style('margin-right', '8px')
+            .style('border-radius', '3px');
+
+          item.append('span')
+            .text(continent.name);
+        });
+      }
+    </script>
+
+<footer >
+
+  <div class="footer-section about">
+      </div>
+  
+      <div class="socials">
+          <p>Follow the flavor trail</p> <br><br>
+    <a href="#">
+      <i data-feather="instagram"></i></a>
+    <a href="#">
+      <i data-feather="facebook"></i></a>
+    <a href="#">
+      <i data-feather="twitter"></i></a>
+      <a href="#">
+      <i data-feather="youtube"></i></a>
+      <a href="#">
+      <i class="fab fa-tiktok"></i></a>
+     
+      </div>
+      <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+      feather.replace();
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126214.34859700906!2d115.14186952991787!3d-8.672674466806763!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd2409b0e5e80db%3A0xe27334e8ccb9374a!2sDenpasar%2C%20Kota%20Denpasar%2C%20Bali!5e0!3m2!1sid!2sid!4v1730610558144!5m2!1sid!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      class="map"></iframe>
+      
+          <p style="text-align: center;">Copyright &copy; 2025 Wander Taste. Semua Hak Dilindungi.</p>
+  
+      </footer>
+  
+  </body>
+</html>

@@ -1,0 +1,447 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+ h1, h2 {
+  font-family: "Merriweather";  /* Kesan klasik & premium */
+  color: #4B2E1E; /* Coklat gelap */
+}
+
+p, li {
+  font-family: "Nunito";  /* Modern dan ringan dibaca */
+}
+
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  background-color: black;
+  color: #3e2f23;
+  overflow-x: hidden;
+}
+
+/* Background gambar blur di seluruh halaman */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../images/background/bg.jpg'); /* pastikan file ini ada */
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px) brightness(0.5);
+  z-index: -1;
+}
+
+label {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+  cursor: pointer; /* Buat Rubah Kursor Jadi Jari Telunjuk */
+}
+
+.logo {
+  background-image: url('../images/logo/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 110px;
+  width: 220px;
+  margin-left: 50px;
+  transition: transform 0.4s ease;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+}
+
+.navbar {
+  background: rgba(41, 12, 12, 0.6); /* semi transparan putih */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: fadeSlideDown 1.5s ease-out;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: "Nunito", serif;
+  font-size: 18px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  align-items: center; /* Tambahan untuk alignment vertikal */
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  display: flex;
+  align-items: center; /* Sejajarkan konten dalam li */
+}
+
+.nav-links li a {
+  color: #A86523;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  height: auto; /* Konsisten dengan dropdown button */
+}
+
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tombol dropdown - sejajarkan dengan link lainnya */
+.dropdown-button {
+  background-color: transparent;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #A86523; /* Sama dengan warna link */
+  padding: 0.5rem 1rem; /* Sama dengan padding link */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 10px; /* Sama dengan border-radius link */
+  transition: all 0.3s ease; /* Sama dengan transisi link */
+  height: auto;
+  margin: 0; /* Reset margin default button */
+}
+
+/* Hover effect untuk dropdown button - sama dengan link */
+.dropdown-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Isi dropdown */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #4F200D;
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 1000;
+  top: 100%;
+  left: 0;
+  border-radius: 5px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Link dalam dropdown */
+.dropdown-content li {
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-content a {
+  color: white; /* Ubah ke white untuk kontras yang lebih baik */
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s ease;
+  border-radius: 0; /* Reset border-radius untuk dropdown items */
+}
+
+.dropdown-content a:hover {
+  font-weight: bold;
+  background-color: #3C1B1F;
+  transform: none; /* Reset transform untuk dropdown items */
+}
+
+/* Tampilkan dropdown saat hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Panah dropdown */
+.arrow {
+  transition: transform 0.3s ease;
+  font-size: 0.8rem;
+}
+
+.dropdown:hover .arrow {
+  transform: rotate(180deg);
+}
+
+/* Pastikan semua item navbar memiliki baseline yang sama */
+.navbar {
+  display: flex;
+  align-items: center; /* Sejajarkan semua elemen navbar */
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+/* Optional: Untuk memastikan semua elemen memiliki tinggi yang sama */
+.nav-links li a,
+.dropdown-button {
+  min-height: 2rem; /* Tinggi minimum yang sama */
+  box-sizing: border-box;
+}
+
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-input {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  outline: none;
+  backdrop-filter: blur(10px);
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search-button {
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.search-button:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+
+/* Animasi navbar */
+@keyframes fadeSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.deskripsi{
+  background-color: #fffaf3; /* krem rempah */
+  width: 90%;
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(120, 78, 42, 0.1);
+  border: 2px solid #f4c95d; /* warna kunyit terang */
+}
+
+ .slider-wrapper {
+       overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      color: #fdf6ec;
+    }
+
+    .slider-wrapper::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
+    }
+    .slider-track {
+      display: flex;
+      gap: 10px;
+    }
+
+    .slider-item {
+      scroll-snap-align: start;
+      flex: 0 0 auto;
+      overflow: hidden;
+      object-fit: cover;
+      margin: 20px;
+      margin-left: 30px;
+      text-align: center;
+      padding: 10px;
+    }
+
+    h2 {
+  position: relative;
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #fdf6ec;
+  margin-bottom: 30px;
+
+ 
+  transition: transform 0.3s ease;
+}
+
+h2:hover {
+  transform: scale(1.05); /* sedikit membesar saat hover */
+}
+
+
+
+    .food-image{
+       width: 300px;
+       height: 200px;
+       object-fit: contain;
+      
+      display: block;
+
+      }   
+
+    .flag-img {
+     width: 50px;
+     height: auto;
+     margin-top: 10px;
+     cursor: pointer;
+  
+}
+.see-more-container {
+  display: flex;
+  align-items: center; /* vertikal sejajar */
+  gap: 30px; /* jarak antara gambar dan teks */
+  margin-top: 5px;
+  padding: 50px;
+}
+.see-more-link {
+  text-decoration: none; /* hilangkan garis bawah */
+  color: #981818; /* ganti warna sesuai keinginan */
+  font-weight: bold;
+  font-size: 16px;
+  transition: 0.5s ease;
+}
+
+.see-more-link:hover {
+  color: #f4c95d; /* efek hover jika diinginkan */
+    transform: scale(1.1);
+    
+
+}
+
+.bling {
+  position: absolute;
+  font-size: 15px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+/* Posisi ikon makanan secara acak */
+.bling:nth-child(2) {
+  top: -20px;
+  left: -20px;
+}
+.bling:nth-child(3) {
+  top: -20px;
+  right: -20px;
+}
+.bling:nth-child(4) {
+  bottom: -20px;
+  left: -20px;
+}
+.bling:nth-child(5) {
+  bottom: -20px;
+  right: -20px;
+}
+
+/* Tampilkan saat hover */
+.see-more-link:hover .bling {
+  opacity: 1;
+  transform: scale(1.5) rotate(10deg);
+}
+
+
+/* Footer */
+footer *{
+  position: relative;
+  z-index: 2;
+}
+
+footer {
+  background-color: #f6ede1;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #5b3c2a;
+}
+
+.socials a {
+  margin: 0 10px;
+  color: #7a4b28;
+  font-size: 20px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.socials a:hover {
+  color: #e38d20;
+}
+
+.socials i {
+  font-size: 24px;
+  margin: 0 10px;
+  color: #7a4b28;
+  transition: 0.3s ease;
+}
+
+.socials i:hover {
+  color: #e38d20;
+}
+
+
+.map {
+  width: 90%;
+  height: 300px;
+  margin: 20px auto;
+  border: 2px solid #e38d20;
+  border-radius: 10px;
+  display: block;
+}
+
+/* Tablet dan Mobile - 768px ke bawah */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .logo {
+    height: 120px;
+    width: 120px;
+    margin: 0 auto 10px auto;
+    align-self: center;
+  }
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    gap: 15px;
+  }
+  .search-form {
+    width: 100%;
+    justify-content: center;
+  }
+  .search-input {
+    width: 70%;
+  }
+}
+
